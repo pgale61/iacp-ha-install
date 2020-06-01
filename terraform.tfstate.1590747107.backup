@@ -1,0 +1,762 @@
+{
+  "version": 4,
+  "terraform_version": "0.12.25",
+  "serial": 207,
+  "lineage": "e5cfda37-a5cd-4768-03e1-bd21b3c450a9",
+  "outputs": {
+    "db_address": {
+      "value": "terraform-20200529093247921100000001.comrlaamqhyn.us-east-1.rds.amazonaws.com",
+      "type": "string"
+    },
+    "rds_creds": {
+      "value": "ern40pbbmwi3pczk8oku8xmuun69069y37ybemv7o",
+      "type": "string"
+    },
+    "scalr_iacp_server_public_ip": {
+      "value": "",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "data",
+      "type": "aws_ami",
+      "name": "the_ami",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "architecture": "x86_64",
+            "block_device_mappings": [
+              {
+                "device_name": "/dev/sda1",
+                "ebs": {
+                  "delete_on_termination": "true",
+                  "encrypted": "false",
+                  "iops": "0",
+                  "snapshot_id": "snap-0dc1b2570a334bcb0",
+                  "volume_size": "8",
+                  "volume_type": "gp2"
+                },
+                "no_device": "",
+                "virtual_name": ""
+              },
+              {
+                "device_name": "/dev/sdb",
+                "ebs": {},
+                "no_device": "",
+                "virtual_name": "ephemeral0"
+              },
+              {
+                "device_name": "/dev/sdc",
+                "ebs": {},
+                "no_device": "",
+                "virtual_name": "ephemeral1"
+              }
+            ],
+            "creation_date": "2020-05-25T14:37:07.000Z",
+            "description": "Canonical, Ubuntu, 16.04 LTS, amd64 xenial image build on 2020-05-21",
+            "executable_users": null,
+            "filter": [
+              {
+                "name": "name",
+                "values": [
+                  "ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"
+                ]
+              },
+              {
+                "name": "virtualization-type",
+                "values": [
+                  "hvm"
+                ]
+              }
+            ],
+            "hypervisor": "xen",
+            "id": "ami-0edfed9d6e9a4031b",
+            "image_id": "ami-0edfed9d6e9a4031b",
+            "image_location": "099720109477/ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-20200521",
+            "image_owner_alias": null,
+            "image_type": "machine",
+            "kernel_id": null,
+            "most_recent": true,
+            "name": "ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-20200521",
+            "name_regex": null,
+            "owner_id": "099720109477",
+            "owners": [
+              "099720109477"
+            ],
+            "platform": null,
+            "product_codes": [],
+            "public": true,
+            "ramdisk_id": null,
+            "root_device_name": "/dev/sda1",
+            "root_device_type": "ebs",
+            "root_snapshot_id": "snap-0dc1b2570a334bcb0",
+            "sriov_net_support": "simple",
+            "state": "available",
+            "state_reason": {
+              "code": "UNSET",
+              "message": "UNSET"
+            },
+            "tags": {},
+            "virtualization_type": "hvm"
+          }
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_security_group",
+      "name": "default_sg",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:670025224396:security-group/sg-019770e1bb93ce5e8",
+            "description": "default VPC security group",
+            "filter": null,
+            "id": "sg-019770e1bb93ce5e8",
+            "name": "default",
+            "tags": {},
+            "vpc_id": "vpc-0a72697a34dff26e7"
+          }
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_subnet_ids",
+      "name": "scalr",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "filter": null,
+            "id": "vpc-0a72697a34dff26e7",
+            "ids": [
+              "subnet-00e52e24be74c3ae8",
+              "subnet-0867fe23fbb836d4e"
+            ],
+            "tags": null,
+            "vpc_id": "vpc-0a72697a34dff26e7"
+          }
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_subnet_ids",
+      "name": "scalr_ids",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "filter": null,
+            "id": "vpc-0a72697a34dff26e7",
+            "ids": [
+              "subnet-00e52e24be74c3ae8",
+              "subnet-0867fe23fbb836d4e"
+            ],
+            "tags": null,
+            "vpc_id": "vpc-0a72697a34dff26e7"
+          }
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_db_instance",
+      "name": "scalr_mysql",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "address": "terraform-20200529093247921100000001.comrlaamqhyn.us-east-1.rds.amazonaws.com",
+            "allocated_storage": 750,
+            "allow_major_version_upgrade": null,
+            "apply_immediately": null,
+            "arn": "arn:aws:rds:us-east-1:670025224396:db:terraform-20200529093247921100000001",
+            "auto_minor_version_upgrade": true,
+            "availability_zone": "us-east-1a",
+            "backup_retention_period": 0,
+            "backup_window": "06:11-06:41",
+            "ca_cert_identifier": "rds-ca-2019",
+            "character_set_name": null,
+            "copy_tags_to_snapshot": false,
+            "db_subnet_group_name": "scalr-db-subnet-group",
+            "delete_automated_backups": true,
+            "deletion_protection": false,
+            "domain": "",
+            "domain_iam_role_name": "",
+            "enabled_cloudwatch_logs_exports": null,
+            "endpoint": "terraform-20200529093247921100000001.comrlaamqhyn.us-east-1.rds.amazonaws.com:3306",
+            "engine": "mysql",
+            "engine_version": "5.7.22",
+            "final_snapshot_identifier": null,
+            "hosted_zone_id": "Z2R2ITUGPM61AM",
+            "iam_database_authentication_enabled": false,
+            "id": "terraform-20200529093247921100000001",
+            "identifier": "terraform-20200529093247921100000001",
+            "identifier_prefix": null,
+            "instance_class": "db.t3.xlarge",
+            "iops": 0,
+            "kms_key_id": "",
+            "license_model": "general-public-license",
+            "maintenance_window": "sat:09:59-sat:10:29",
+            "max_allocated_storage": 0,
+            "monitoring_interval": 0,
+            "monitoring_role_arn": "",
+            "multi_az": true,
+            "name": "iacppgscalr",
+            "option_group_name": "default:mysql-5-7",
+            "parameter_group_name": "rds-scalr",
+            "password": "ern40pbbmwi3pczk8oku8xmuun69069y37ybemv7o",
+            "performance_insights_enabled": false,
+            "performance_insights_kms_key_id": "",
+            "performance_insights_retention_period": 0,
+            "port": 3306,
+            "publicly_accessible": false,
+            "replicas": [],
+            "replicate_source_db": "",
+            "resource_id": "db-PZUH6P6NY22OOU5HZMPXKRGFBE",
+            "s3_import": [],
+            "security_group_names": null,
+            "skip_final_snapshot": true,
+            "snapshot_identifier": null,
+            "status": "available",
+            "storage_encrypted": false,
+            "storage_type": "gp2",
+            "tags": null,
+            "timeouts": null,
+            "timezone": "",
+            "username": "scalr",
+            "vpc_security_group_ids": [
+              "sg-010712f6d7ff703ef",
+              "sg-019770e1bb93ce5e8",
+              "sg-0cc9388fcef2b4e50"
+            ]
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAwLCJkZWxldGUiOjI0MDAwMDAwMDAwMDAsInVwZGF0ZSI6NDgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "aws_db_parameter_group.default",
+            "aws_db_subnet_group.scalr",
+            "aws_security_group.mysql_sg",
+            "aws_security_group.scalr_sg",
+            "random_password.mysql_pw"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_db_parameter_group",
+      "name": "default",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:rds:us-east-1:670025224396:pg:rds-scalr",
+            "description": "Managed by Terraform",
+            "family": "mysql5.7",
+            "id": "rds-scalr",
+            "name": "rds-scalr",
+            "name_prefix": null,
+            "parameter": [
+              {
+                "apply_method": "immediate",
+                "name": "character_set_client",
+                "value": "utf8"
+              },
+              {
+                "apply_method": "immediate",
+                "name": "character_set_server",
+                "value": "utf8"
+              },
+              {
+                "apply_method": "immediate",
+                "name": "sql_mode",
+                "value": "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+              }
+            ],
+            "tags": null
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_db_subnet_group",
+      "name": "scalr",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:rds:us-east-1:670025224396:subgrp:scalr-db-subnet-group",
+            "description": "Managed by Terraform",
+            "id": "scalr-db-subnet-group",
+            "name": "scalr-db-subnet-group",
+            "name_prefix": null,
+            "subnet_ids": [
+              "subnet-00e52e24be74c3ae8",
+              "subnet-0867fe23fbb836d4e"
+            ],
+            "tags": {
+              "Name": "RDS-Scalr-Group1"
+            }
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_ebs_volume",
+      "name": "iacp_vol",
+      "provider": "provider.aws",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "iacp_server",
+      "each": "list",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "index_key": 0,
+          "status": "tainted",
+          "schema_version": 1,
+          "attributes": {
+            "ami": "ami-0edfed9d6e9a4031b",
+            "arn": "arn:aws:ec2:us-east-1:670025224396:instance/i-09a211c97f2b71b25",
+            "associate_public_ip_address": false,
+            "availability_zone": "us-east-1a",
+            "cpu_core_count": 2,
+            "cpu_threads_per_core": 2,
+            "credit_specification": [
+              {
+                "cpu_credits": "unlimited"
+              }
+            ],
+            "disable_api_termination": false,
+            "ebs_block_device": [],
+            "ebs_optimized": false,
+            "ephemeral_block_device": [],
+            "get_password_data": false,
+            "hibernation": false,
+            "host_id": null,
+            "iam_instance_profile": "",
+            "id": "i-09a211c97f2b71b25",
+            "instance_initiated_shutdown_behavior": null,
+            "instance_state": "running",
+            "instance_type": "t3.xlarge",
+            "ipv6_address_count": 0,
+            "ipv6_addresses": [],
+            "key_name": "PeterG",
+            "metadata_options": [
+              {
+                "http_endpoint": "enabled",
+                "http_put_response_hop_limit": 1,
+                "http_tokens": "optional"
+              }
+            ],
+            "monitoring": false,
+            "network_interface": [],
+            "network_interface_id": null,
+            "password_data": "",
+            "placement_group": "",
+            "primary_network_interface_id": "eni-02b89b8b7a140428d",
+            "private_dns": "ip-10-56-0-4.ec2.internal",
+            "private_ip": "10.56.0.4",
+            "public_dns": "",
+            "public_ip": "",
+            "root_block_device": [
+              {
+                "delete_on_termination": true,
+                "device_name": "/dev/sda1",
+                "encrypted": false,
+                "iops": 100,
+                "kms_key_id": "",
+                "volume_id": "vol-0606e009a5d737fc4",
+                "volume_size": 8,
+                "volume_type": "gp2"
+              }
+            ],
+            "security_groups": [],
+            "source_dest_check": true,
+            "subnet_id": "subnet-00e52e24be74c3ae8",
+            "tags": {
+              "Name": "iacppg-iacp-server"
+            },
+            "tenancy": "default",
+            "timeouts": null,
+            "user_data": null,
+            "user_data_base64": null,
+            "volume_tags": {},
+            "vpc_security_group_ids": [
+              "sg-010712f6d7ff703ef",
+              "sg-019770e1bb93ce5e8"
+            ]
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMCwidXBkYXRlIjo2MDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "aws_db_instance.scalr_mysql",
+            "aws_db_parameter_group.default",
+            "aws_db_subnet_group.scalr",
+            "aws_security_group.mysql_sg",
+            "aws_security_group.scalr_sg",
+            "local_file.license_file",
+            "null_resource.fix_key",
+            "random_password.mysql_pw"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lb_listener",
+      "name": "scalr_lb_listener",
+      "provider": "provider.aws",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lb_listener_rule",
+      "name": "listener_rule",
+      "provider": "provider.aws",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lb_target_group",
+      "name": "scalr_lb_target_group",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:elasticloadbalancing:us-east-1:670025224396:targetgroup/iacppg-scalr-lb-tg/e3b2291dd6ba8374",
+            "arn_suffix": "targetgroup/iacppg-scalr-lb-tg/e3b2291dd6ba8374",
+            "deregistration_delay": 300,
+            "health_check": [
+              {
+                "enabled": true,
+                "healthy_threshold": 5,
+                "interval": 30,
+                "matcher": "200",
+                "path": "/",
+                "port": "traffic-port",
+                "protocol": "HTTPS",
+                "timeout": 5,
+                "unhealthy_threshold": 2
+              }
+            ],
+            "id": "arn:aws:elasticloadbalancing:us-east-1:670025224396:targetgroup/iacppg-scalr-lb-tg/e3b2291dd6ba8374",
+            "lambda_multi_value_headers_enabled": false,
+            "load_balancing_algorithm_type": "round_robin",
+            "name": "iacppg-scalr-lb-tg",
+            "name_prefix": null,
+            "port": 443,
+            "protocol": "HTTPS",
+            "proxy_protocol_v2": false,
+            "slow_start": 0,
+            "stickiness": [
+              {
+                "cookie_duration": 86400,
+                "enabled": false,
+                "type": "lb_cookie"
+              }
+            ],
+            "tags": {
+              "name": "iacppg-scalr-lb-tg"
+            },
+            "target_type": "instance",
+            "vpc_id": "vpc-0a72697a34dff26e7"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lb_target_group_attachment",
+      "name": "scalr_tg_attachment",
+      "provider": "provider.aws",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "mysql_sg",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:670025224396:security-group/sg-0cc9388fcef2b4e50",
+            "description": "Used in the terraform",
+            "egress": [],
+            "id": "sg-0cc9388fcef2b4e50",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 3306,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 3306
+              }
+            ],
+            "name": "iacppg-mysql_sg",
+            "name_prefix": null,
+            "owner_id": "670025224396",
+            "revoke_rules_on_delete": false,
+            "tags": null,
+            "timeouts": null,
+            "vpc_id": "vpc-0a72697a34dff26e7"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "scalr_sg",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:670025224396:security-group/sg-010712f6d7ff703ef",
+            "description": "General rules for Scalr Servers",
+            "egress": [],
+            "id": "sg-010712f6d7ff703ef",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 22,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 22
+              },
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 443,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 443
+              },
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 8080,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 8080
+              }
+            ],
+            "name": "iacppg-scalr_sg",
+            "name_prefix": null,
+            "owner_id": "670025224396",
+            "revoke_rules_on_delete": false,
+            "tags": null,
+            "timeouts": null,
+            "vpc_id": "vpc-0a72697a34dff26e7"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_volume_attachment",
+      "name": "iacp_attach",
+      "provider": "provider.aws",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "local_file",
+      "name": "license_file",
+      "each": "list",
+      "provider": "provider.local",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "local_file",
+      "name": "ssh_key",
+      "each": "list",
+      "provider": "provider.local",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "local_file",
+      "name": "ssl_cert",
+      "each": "list",
+      "provider": "provider.local",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "content": "Stuff",
+            "content_base64": null,
+            "directory_permission": "0777",
+            "file_permission": "0777",
+            "filename": "./cert/temp_my.crt",
+            "id": "226d042d922d0fe1a2ce84760d3018fe6a37c528",
+            "sensitive_content": null
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "local_file",
+      "name": "ssl_key",
+      "each": "list",
+      "provider": "provider.local",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "content": "Stuff",
+            "content_base64": null,
+            "directory_permission": "0777",
+            "file_permission": "0777",
+            "filename": "./cert/temp_my.key",
+            "id": "226d042d922d0fe1a2ce84760d3018fe6a37c528",
+            "sensitive_content": null
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "null_resource",
+      "name": "fix_key",
+      "each": "list",
+      "provider": "provider.null",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "null_resource",
+      "name": "fix_ssl_cert",
+      "each": "list",
+      "provider": "provider.null",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "id": "3215251017779279773",
+            "triggers": null
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "local_file.ssl_cert"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "null_resource",
+      "name": "fix_ssl_key",
+      "each": "list",
+      "provider": "provider.null",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "id": "8485174664520536590",
+            "triggers": null
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "local_file.ssl_key"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "null_resource",
+      "name": "get_info",
+      "provider": "provider.null",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "null_resource",
+      "name": "null_1",
+      "provider": "provider.null",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "random_password",
+      "name": "mysql_pw",
+      "provider": "provider.random",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "none",
+            "keepers": null,
+            "length": 41,
+            "lower": true,
+            "min_lower": 0,
+            "min_numeric": 0,
+            "min_special": 0,
+            "min_upper": 0,
+            "number": true,
+            "override_special": null,
+            "result": "ern40pbbmwi3pczk8oku8xmuun69069y37ybemv7o",
+            "special": false,
+            "upper": false
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    }
+  ]
+}

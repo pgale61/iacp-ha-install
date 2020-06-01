@@ -115,7 +115,7 @@ data "aws_subnet_ids" "scalr_ids" {
 
 resource "aws_instance" "iacp_server" {
   count                   = var.server_count
-  depends_on              = [null_resource.fix_key, local_file.license_file, aws_db_instance.scalr_mysql]
+  depends_on              = [null_resource.fix_key, local_file.license_file, aws_db_instance.scalr_mysql, aws_lb.scalr_lb ]
   ami                     = data.aws_ami.the_ami.id
   instance_type           = var.instance_type
   key_name                = var.ssh_key_name
@@ -140,18 +140,21 @@ resource "aws_instance" "iacp_server" {
   }
 
   provisioner "file" {
-        source = local.ssl_cert_file
+#        source = local.ssl_cert_file
+        content     = tls_self_signed_cert.scalr_cert.cert_pem
         destination = "/var/tmp/my.crt"
   }
 
+ 
   provisioner "file" {
-        source = local.ssl_key_file
+#        source = local.ssl_key_file
+        content     = tls_private_key.scalr_pk.private_key_pem
         destination = "/var/tmp/my.key"
   }
 
   provisioner "file" {
-      source = "./SCRIPTS/scalr_install_1.sh"
-      destination = "/var/tmp/scalr_install_1.sh"
+      source = "./SCRIPTS/scalr_install.sh"
+      destination = "/var/tmp/scalr_install.sh"
   }
 
 }
@@ -182,7 +185,7 @@ resource "null_resource" "null_1" {
   provisioner "remote-exec" {
       inline = [
         "chmod +x /var/tmp/scalr_install.sh",
-        "sudo /var/tmp/scalr_install.sh '${var.token}' ${aws_volume_attachment.iacp_attach.volume_id} ${var.domain_name} ${aws_db_instance.scalr_mysql.address}",
+        "sudo /var/tmp/scalr_install.sh '${var.token}' ${aws_volume_attachment.iacp_attach.volume_id} ${aws_lb.scalr_lb.dns_name} ${aws_db_instance.scalr_mysql.address} ${random_password.mysql_pw.result}",
       ]
   }
 

@@ -16,7 +16,8 @@ trap 'abort $? "$STEP" $LINENO' ERR
 TOKEN="${1}"
 VOL="${2}"
 DOMAIN_NAME="${3}"
-DB_M="${4}"
+DB_HOST="${4}"
+MYSQL_PW="${5}"
 
 VOL2=$(echo $VOL | sed 's/-//')
 DEVICE=$(lsblk -o NAME,SERIAL | grep ${VOL2} | awk '{print $1}')
@@ -42,10 +43,14 @@ apt-get install -y scalr-server
 STEP="scalr-server-wizard"
 scalr-server-wizard
 
+STEP="Set Mysql Password in secrets"
+sed 's/"scalr_password": .*,/"scalr_password": "'$MYSQL_PW'",/' /etc/scalr-server/scalr-server-secrets.json > /var/tmp/scalr-server-secrets.json
+cp /var/tmp/scalr-server-secrets.json /etc/scalr-server/scalr-server-secrets.json
+
 STEP="Create config with cat"
 
 cat << ! > /etc/scalr-server/scalr-server.rb
-enable_all false
+enable_all true
 product_mode :iacp
 
 mysql[:enable] = false
@@ -70,8 +75,11 @@ routing[:endpoint_scheme] = "https"
 #no_proxy example.com
 
 #If you are using an external database service or separating the database onto a different server.
-app[:mysql_scalr_host] = "$DB_M"
+app[:mysql_scalr_host] = "$DB_HOST"
 app[:mysql_scalr_port] = 3306
+
+app[:mysql_analytics_host] = "$DB_HOST"
+app[:mysql_analytics_port] = 3306
 
 ####The following is only needed if you want to use a specific version of Terraform that Scalr may not included yet.####
 #app[:configuration] = {
@@ -98,6 +106,11 @@ STEP="SSL Cert"
 
 STEP="SSL key"
 [[ -f /var/tmp/my.key ]] && cp /var/tmp/my.key /etc/scalr-server/organization.key
+
+STEP="Create Analytics Database"
+sudo /opt/scalr-server/embedded/bin/mysql -h $DB_HOST -u scalr -p$(sudo sed -n "/mysql/,+2p" /var/tmp/scalr-server-secrets.json | tail -1 | sed 's/.*: "\(.*\)",/\1/') scalr << !
+CREATE DATABASE analytics;
+!
 
 STEP="scalr-server-ctl reconfigure"
 scalr-server-ctl reconfigure

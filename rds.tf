@@ -45,7 +45,7 @@ resource "aws_db_instance" "scalr_mysql" {
   engine_version       = "5.7"
   multi_az             = true
   instance_class       = "db.t3.xlarge"
-  name                 = "${var.name_prefix}scalr"
+  name                 = "scalr"
   username             = "scalr"
   password             = random_password.mysql_pw.result
   db_subnet_group_name = aws_db_subnet_group.scalr.name

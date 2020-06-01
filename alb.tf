@@ -18,10 +18,39 @@ resource "aws_lb_target_group" "scalr_lb_target_group" {
   }
 }
 
+resource "tls_private_key" "scalr_pk" {
+  algorithm = "RSA"
+}
+
+resource "tls_self_signed_cert" "scalr_cert" {
+  key_algorithm   = "RSA"
+  private_key_pem = tls_private_key.scalr_pk.private_key_pem
+
+  subject {
+    common_name  = aws_lb.scalr_lb.dns_name
+    organization = "Scalr"
+  }
+
+  validity_period_hours = 48
+
+  allowed_uses = [
+    "key_encipherment",
+    "digital_signature",
+    "server_auth",
+  ]
+}
+
+resource "aws_acm_certificate" "scalr_iacp_acm_cert" {
+  private_key      = tls_private_key.scalr_pk.private_key_pem
+  certificate_body = tls_self_signed_cert.scalr_cert.cert_pem
+}
+
 resource "aws_lb_listener" "scalr_lb_listener" {
   load_balancer_arn = aws_lb.scalr_lb.arn
   port              = "443"
   protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate.scalr_iacp_acm_cert.arn
 
   default_action {
     target_group_arn = aws_lb_target_group.scalr_lb_target_group.arn
